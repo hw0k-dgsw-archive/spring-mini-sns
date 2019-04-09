@@ -80,7 +80,7 @@ const getPostList = async () => {
 };
 
 const addPost = async () => {
-  const content = document.getElementById("post-input-content").value;
+  const content = document.getElementById("post-input-content").value.trim();
   const userid = document.getElementById("user-id").innerText;
 
   const { data } = await axios.post("/post", {
@@ -88,6 +88,11 @@ const addPost = async () => {
     content: content,
     photoFile: await uploadFileAndGetId()
   });
+
+  if (content === "") {
+    alert("스토리를 업로드할 수 없습니다.");
+    return;
+  }
 
   if (data != null && data) {
     addPostList(data);
@@ -98,10 +103,6 @@ const addPost = async () => {
   else {
     alert("스토리를 업로드할 수 없습니다.");
   }
-
-  document.getElementById("post-input-photo").value = "";
-  document.getElementById("post-input-content").value = "";
-
 };
 
 const spawnPost = post => {
