@@ -89,13 +89,13 @@ const addPost = async () => {
     photoFile: await uploadFileAndGetId()
   });
 
-  if (content === "") {
+  if (content === "" || document.getElementById("post-input-photo").value == null) {
     alert("스토리를 업로드할 수 없습니다.");
     return;
   }
 
   if (data != null && data) {
-    addPostList(data);
+    addPostToList(data);
     document.getElementById("post-input-photo").value = "";
     document.getElementById("post-input-content").value = "";
     closeModalDirect("modal-write");
@@ -145,9 +145,12 @@ const spawnPost = post => {
   `;
 }
 
-const fetchPostList = posts => posts.forEach(post => document.getElementById("post-list").innerHTML += spawnPost(post));
+const fetchPostList = posts => {
+  document.getElementById("post-list").innerHTML = ``;
+  posts.forEach(post => document.getElementById("post-list").innerHTML += spawnPost(post));
+}
 
-const addPostList = post => document.getElementById("post-list").innerHTML += spawnPost(post);
+const addPostToList = post => document.getElementById("post-list").innerHTML += spawnPost(post);
 
 const uploadFileAndGetId = async () => {
   let formData = new FormData();
