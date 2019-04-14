@@ -1,4 +1,4 @@
-const inDevelop = true;
+const inDevelop = false;
 
 const http = inDevelop
   ? axios.create({baseURL: "http://localhost:8080"})

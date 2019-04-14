@@ -5,182 +5,78 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-  <style>
-    * {
-      font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', sans-serif;
-    }
-  </style>
-  <title>Spring CRM</title>
+  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+  <link rel="stylesheet" href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css">
+  <link rel="stylesheet" href="vendor/styles.css">
+  <title>DGSW SNS</title>
 </head>
 <body>
+  <header>
+    <nav class="nav">
+      <div class="nav-item">디지-에스따블유 에스엔에스</div>
+    </nav>
+  </header>
   <div class="container">
-    <div class="input-group mt-5">
-      <input type="text" class="form-control w-20" placeholder="Enter Username.." id="username">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" onclick="addUser()">확인</button>
+    <section class="box box-layout box-post">
+      <button class="box box-btn btn-blue"
+              onclick="document.getElementById('user-id').innerText === ''
+              ? openModalDirect('modal-login')
+              : openModal(this)"
+              bind-for="modal-write">
+        새 스토리 업로드
+      </button>
+      <div id="post-list">
       </div>
-    </div>
-    <!-- 모달 추가 후 로그인 박스 만들기 -->
-    <table class="table mt-5">
-      <thead>
-      <tr>
-        <th scope="col">프사</th>
-        <th scope="col">유저 이름</th>
-        <th scope="col">이메일</th>
-        <th scope="col">수정</th>
-        <th scope="col">삭제</th>
-      </tr>
-      </thead>
-      <tbody id="insert">
-      </tbody>
-    </table>
-    <div id="login-container" style="position: fixed; width: 100vw; height: 100vh; left: 0; top: 0; display: flex; justify-content: center; align-items: center; background-color: #00000055;">
-      <div style="text-align: center; background-color: white; padding: 30px;">
-        <div>로그인</div>
-        <input type="text" class="form-control mt-3">
-        <input type="text" class="form-control mt-3">
-        <hr>
-        <div style="text-align: right;">
-          <button class="btn btn-secondary" onclick="cancelModal()">취소</button>
-          <button class="btn btn-primary">로그인</button>
-        </div>
+    </section>
+    <aside class="box box-layout box-user">
+      <div class="img-holder">
+        <img class="img img-rounded" id="user-avatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile">
       </div>
-    </div>
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">댓글 수정하기</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <input type="hidden" id="edit-id">
-            <input type="hidden" id="file-uuid">
-            <input type="text" class="form-control mb-2" placeholder="Enter username.." id="edit-username">
-            <input type="text" class="form-control mb-2" placeholder="Enter email.." id="edit-email">
-            <input type="file" class="form-control mb-2" id="edit-avatar">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            <button type="button" class="btn btn-primary" onclick="editUser()" data-dismiss="modal">수정</button>
-            <!-- event attribute에 this 넣으면 전달 가능 -->
-          </div>
-        </div>
+      <div class="mt-base" style="display: flex; flex-flow: column nowrap;">
+        <div class="mt-base text-profile" style="font-size: 1.25rem;" id="user-username"></div>
+        <div class="mt-base text-profile" id="user-email"></div>
+        <div class="mt-base text-profile" id="user-created"></div>
+        <button class="mt-base text-profile box box-btn btn-blue" style="align-self: center;" onclick="openModal(this)" bind-for="modal-login">로그인</button>
+        <div style="display: none;" id="user-id"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="modal-login" class="modal">
+    <div class="modal-box">
+      <div class="modal-close" onclick="closeModal(this)" bind-for="modal-login">&times;</div>
+      <div class="f-row">
+        <div class="mt-base">아이디</div>
+        <input type="text" class="box mt-base" id="login-id">
+        <div class="mt-base">비밀번호</div>
+        <input type="password" class="box mt-base" id="login-password">
+      </div>
+      <div class="pull-right mt-3">
+        <button class="box box-btn btn-grey" onclick="closeModal(this)" bind-for="modal-login">취소</button>
+        <button class="box box-btn btn-blue" onclick="login()">로그인</button>
       </div>
     </div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <div id="modal-write" class="modal">
+    <div class="modal-box">
+      <div class="modal-close" onclick="closeModal(this)" bind-for="modal-write">&times;</div>
+      <div class="f-row">
+        <div style="display: none;" id="post-id"></div>
+        <div>사진</div>
+        <input type="file" class="box mt-base" name="aa" id="post-input-photo">
+        <div class="mt-base">사진 설명</div>
+        <input type="text" class="box mt-base" id="post-input-content">
+      </div>
+      <div class="pull-right mt-3">
+        <button class="box box-btn btn-grey" onclick="closeModal(this)" bind-for="modal-write">취소</button>
+        <button class="box box-btn btn-blue" onclick="addOrUpdatePost()">업로드</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script>
-    const cancelModal = () => {
-      document.getElementById("login-container").style.display = "none";
-    };
-    $('#editModal').on('hidden.bs.modal', e => {
-      document.getElementById("edit-id").value = "";
-      document.getElementById("file-uuid").value = "";
-      document.getElementById("edit-username").value = "";
-      document.getElementById("edit-email").value = "";
-      document.getElementById("edit-avatar").files[0] = null;
-    });
-
-    const spawnElement = data => {
-      document.getElementById("insert").innerHTML += `
-        <tr user-id="${data.id}">
-          <td><img src="/attach/${data.avatarFile}" alt="프로필 사진" class="rounded" style="max-height: 80px;"></td>
-          <td>${data.username}</td>
-          <td>${data.email}</td>
-          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" onclick="setEditId(${data.id})">수정</button></td>
-          <td><button type="button" class="btn btn-danger" onclick="deleteUser(${data.id})">삭제</button></td>
-        </tr>
-      `;
-    };
-
-    const retreiveUsers = async () => {
-      document.getElementById("insert").innerHTML = "";
-      const { data } = await axios.get("/user");
-      console.log(data);
-      data.forEach(el => spawnElement(el));
-    };
-
-    const addUser = async () => {
-      const value = document.getElementById("username").value.trim();
-      if (value === null || value === "") {
-        alert("값을 입력해주세요.");
-        return;
-      }
-      const { data } = await axios.post(`/user`, {
-        username: value
-      });
-
-      if (data !== null) {
-        spawnElement(data);
-      }
-
-      document.getElementById("username").value = "";
-    };
-
-    const deleteUser = async id => {
-      const { data } = await axios.delete(`/user/${id}`);
-      if (data !== null && data) {
-        const element = document.querySelector(`[user-id="${id}"]`);
-        document.getElementById("insert").removeChild(element);
-      }
-    };
-
-    const setEditId = async id => {
-      document.getElementById("edit-id").value = id;
-
-      const { data } = await axios.get(`/user/${id}`);
-      document.getElementById("edit-id").value = id;
-      document.getElementById("file-uuid").value = data.avatarFile;
-      document.getElementById("edit-username").value = data.username;
-      document.getElementById("edit-email").value = data.email;
-    };
-
-    const editUser = async () => {
-      const id = document.getElementById("edit-id").value;
-      const value = {
-        username: document.getElementById("edit-username").value,
-        email: document.getElementById("edit-email").value,
-        avatarFile: await uploadPictureAndSync()
-      };
-
-      console.log(value);
-      if (value.username === "" || value.email === "") {
-        alert("값을 입력해주세요.");
-        return;
-      }
-      const { data } = await axios.put(`/user/${id}`, {
-        username: value.username,
-        email: value.email,
-        avatarFile: value.avatarFile
-      });
-
-      if (data !== null && data) {
-        await retreiveUsers();
-      }
-    };
-
-    const uploadPictureAndSync = async () => {
-      let formData = new FormData();
-      formData.append("file", document.getElementById("edit-avatar").files[0]);
-
-      const { data } = await axios.post("/attach", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      console.log(data.id);
-      return data.id;
-    };
-
-    document.addEventListener("DOMContentLoaded", retreiveUsers);
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+  <script src="vendor/script.js"></script>
 </body>
 </html>
