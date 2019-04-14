@@ -26,7 +26,9 @@ public class UserServiceImpl implements UserService {
     @PostConstruct
     private void init() {
         if (DDLMode.equals("create") || DDLMode.equals("create-drop")) {
-            // Dummy Data
+            for (int i = 1; i <= 3; i++) {
+                userRepository.save(new User("" + i, null, "" + i, "" + i + "@dgsw.hs.kr", "" + i));
+            }
         }
     }
 

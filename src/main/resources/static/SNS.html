@@ -18,18 +18,25 @@
   </header>
   <div class="container">
     <section class="box box-layout box-post">
-      <button class="box box-btn btn-blue" onclick="openModal(this)" bind-for="modal-write">새 스토리 업로드</button>
+      <button class="box box-btn btn-blue"
+              onclick="document.getElementById('user-id').innerText === ''
+              ? openModalDirect('modal-login')
+              : openModal(this)"
+              bind-for="modal-write">
+        새 스토리 업로드
+      </button>
       <div id="post-list">
       </div>
     </section>
     <aside class="box box-layout box-user">
       <div class="img-holder">
-        <img class="img img-rounded" id="user-avatar" src="https://dummyimage.com/800x800/444/fff" alt="Profile">
+        <img class="img img-rounded" id="user-avatar" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" alt="Profile">
       </div>
-      <div class="mt-base">
+      <div class="mt-base" style="display: flex; flex-flow: column nowrap;">
         <div class="mt-base text-profile" style="font-size: 1.25rem;" id="user-username"></div>
         <div class="mt-base text-profile" id="user-email"></div>
         <div class="mt-base text-profile" id="user-created"></div>
+        <button class="mt-base text-profile box box-btn btn-blue" style="align-self: center;" onclick="openModal(this)" bind-for="modal-login">로그인</button>
         <div style="display: none;" id="user-id"></div>
       </div>
     </aside>
@@ -37,7 +44,7 @@
 
   <div id="modal-login" class="modal">
     <div class="modal-box">
-      <div class="modal-close" onclick="alert('로그인도 하기 싫다면 대책이 없네요 ㅠㅠ 로그인해주세요!')">&times;</div>
+      <div class="modal-close" onclick="closeModal(this)" bind-for="modal-login">&times;</div>
       <div class="f-row">
         <div class="mt-base">아이디</div>
         <input type="text" class="box mt-base" id="login-id">
@@ -45,8 +52,8 @@
         <input type="password" class="box mt-base" id="login-password">
       </div>
       <div class="pull-right mt-3">
-        <button class="box box-btn btn-grey" onclick="alert('로그인도 하기 싫다면 대책이 없네요 ㅠㅠ 로그인해주세요!')">Cancel</button>
-        <button class="box box-btn btn-blue" onclick="login()">Login</button>
+        <button class="box box-btn btn-grey" onclick="closeModal(this)" bind-for="modal-login">취소</button>
+        <button class="box box-btn btn-blue" onclick="login()">로그인</button>
       </div>
     </div>
   </div>
@@ -55,6 +62,7 @@
     <div class="modal-box">
       <div class="modal-close" onclick="closeModal(this)" bind-for="modal-write">&times;</div>
       <div class="f-row">
+        <div style="display: none;" id="post-id"></div>
         <div>사진</div>
         <input type="file" class="box mt-base" name="aa" id="post-input-photo">
         <div class="mt-base">사진 설명</div>
@@ -62,7 +70,7 @@
       </div>
       <div class="pull-right mt-3">
         <button class="box box-btn btn-grey" onclick="closeModal(this)" bind-for="modal-write">취소</button>
-        <button class="box box-btn btn-blue" onclick="addPost()">bb</button>
+        <button class="box box-btn btn-blue" onclick="addOrUpdatePost()">업로드</button>
       </div>
     </div>
   </div>

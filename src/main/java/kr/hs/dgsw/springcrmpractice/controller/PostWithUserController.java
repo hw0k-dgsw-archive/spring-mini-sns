@@ -32,4 +32,14 @@ public class PostWithUserController {
     public PostWithUser addPost(@RequestBody Post post) {
         return postWithUserService.addPost(post);
     }
+
+    @PutMapping("/post/{id}")
+    public PostWithUser updatePost(@PathVariable Long id, @RequestBody Post post) {
+        return postWithUserService.updatePost(id, post);
+    }
+
+    @DeleteMapping("/post/{id}")
+    public boolean deletePost(@PathVariable Long id) {
+        return postWithUserService.deletePost(id);
+    }
 }

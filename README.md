@@ -13,3 +13,5 @@ Normalize.css, Moment.js, axios
 ![스샷1](1.png)
 
 ![스샷2](2.png)
+
+![스샷3](3.png)
